@@ -17,7 +17,7 @@ from whisper_dictation.config import get_model_id
 # ── Config ──────────────────────────────────────────────────────────────
 SAMPLE_RATE = 16000
 DOUBLE_TAP_INTERVAL = 0.35  # seconds — max gap between two Control taps
-SOUND_START = "/System/Library/Sounds/Tink.aiff"
+SOUND_START = "/System/Library/Sounds/Pop.aiff"
 SOUND_STOP = "/System/Library/Sounds/Pop.aiff"
 # ────────────────────────────────────────────────────────────────────────
 
@@ -28,8 +28,15 @@ lock = threading.Lock()
 
 
 def play_sound(sound_path):
-    """Play a macOS system sound without blocking."""
-    subprocess.Popen(["afplay", sound_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    """Play a macOS system sound without blocking using NSSound."""
+    try:
+        from AppKit import NSSound
+        sound = NSSound.alloc().initWithContentsOfFile_byReference_(sound_path, True)
+        if sound:
+            sound.play()
+    except Exception:
+        # Fallback to afplay
+        subprocess.Popen(["afplay", sound_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def notify(title, message):

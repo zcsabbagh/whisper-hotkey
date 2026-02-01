@@ -66,7 +66,8 @@ def request_input_monitoring():
     open_system_settings("Privacy_ListenEvent")
     reveal_in_finder(python_path)
 
-    input("  Press Enter after granting Input Monitoring access...")
+    if sys.stdin.isatty():
+        input("  Press Enter after granting Input Monitoring access...")
     print()
 
 

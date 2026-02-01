@@ -1,6 +1,6 @@
 [project]
 name = "whisper-hotkey"
-version = "0.1.2"
+version = "0.1.3"
 description = "Double-tap Control to dictate with Whisper. Transcribes and pastes to any text field. macOS only."
 readme = "README.md"
 license = "MIT"
