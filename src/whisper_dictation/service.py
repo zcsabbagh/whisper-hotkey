@@ -17,12 +17,19 @@ from whisper_dictation.config import get_model_id
 # ── Config ──────────────────────────────────────────────────────────────
 SAMPLE_RATE = 16000
 DOUBLE_TAP_INTERVAL = 0.35  # seconds — max gap between two Control taps
+SOUND_START = "/System/Library/Sounds/Tink.aiff"
+SOUND_STOP = "/System/Library/Sounds/Pop.aiff"
 # ────────────────────────────────────────────────────────────────────────
 
 recording = False
 audio_frames = []
 stream = None
 lock = threading.Lock()
+
+
+def play_sound(sound_path):
+    """Play a macOS system sound without blocking."""
+    subprocess.Popen(["afplay", sound_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def notify(title, message):
@@ -64,6 +71,7 @@ def start_recording():
     )
     stream.start()
     recording = True
+    play_sound(SOUND_START)
     print("Recording... (double-tap Control to stop)")
     notify("Whisper Dictation", "Recording started...")
 
@@ -72,6 +80,7 @@ def stop_recording_and_transcribe(model):
     """Stop recording, transcribe, and paste the result."""
     global recording, stream
     recording = False
+    play_sound(SOUND_STOP)
     if stream is not None:
         stream.stop()
         stream.close()

@@ -1,6 +1,6 @@
 [project]
 name = "whisper-hotkey"
-version = "0.1.1"
+version = "0.1.2"
 description = "Double-tap Control to dictate with Whisper. Transcribes and pastes to any text field. macOS only."
 readme = "README.md"
 license = "MIT"
@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/zane/whisper-hotkey"
+Homepage = "https://github.com/zcsabbagh/whisper-hotkey"
 
 [project.scripts]
 whisper-hotkey = "whisper_dictation.cli:main"
